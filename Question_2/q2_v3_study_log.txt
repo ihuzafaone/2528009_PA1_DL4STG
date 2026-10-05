@@ -1,0 +1,71 @@
+{
+ "winter": {
+  "train mean": {
+   "rmse": 116.25956451620597,
+   "mae": 86.79483502282491,
+   "smape": 85.49550318302892
+  },
+  "last value": {
+   "rmse": 156.03476253000318,
+   "mae": 116.34795321637426,
+   "smape": 96.5218359215819
+  },
+  "mean of last 168": {
+   "rmse": 116.76401292969872,
+   "mae": 89.05140890420495,
+   "smape": 86.3356832792594
+  }
+ },
+ "recent": {
+  "train mean": {
+   "rmse": 102.82050743770739,
+   "mae": 78.51879568354184,
+   "smape": 84.7075767781329
+  },
+  "last value": {
+   "rmse": 146.85772169019899,
+   "mae": 105.09282345013477,
+   "smape": 93.84185305481536
+  },
+  "mean of last 168": {
+   "rmse": 110.95124377951606,
+   "mae": 83.49135353827066,
+   "smape": 85.7275467609716
+  }
+ }
+}
+[S1 optional data (ablation)] none                         per-seed 142.59 +-  3.73 | 3-seed avg 141.86 (winter 142.58, recent 141.09) MAE 120.6 sMAPE 95.0  [0s]
+[S1 optional data (ablation)] raw file, past only          per-seed 125.88 +-  0.53 | 3-seed avg 124.65 (winter 127.66, recent 121.34) MAE 104.4 sMAPE 90.2  [0s]
+[S1 optional data (ablation)] raw file, past+future        per-seed  85.88 +- 11.11 | 3-seed avg  81.02 (winter  81.12, recent  80.90) MAE  62.4 sMAPE 68.6  [0s]
+[S1 optional data (ablation)] engineered, past+future      per-seed  81.79 +-  9.80 | 3-seed avg  76.75 (winter  75.82, recent  77.75) MAE  59.3 sMAPE 66.2  [0s]
+[S1 optional data (ablation)] -> engineered, past+future
+
+[S2 trend start] context mean (paper)         per-seed  83.91 +-  3.11 | 3-seed avg  80.71 (winter  76.00, recent  85.48) MAE  63.1 sMAPE 68.6  [0s]
+[S2 trend start] mean + linear(cov)           per-seed  81.79 +-  9.80 | 3-seed avg  76.75 (winter  75.82, recent  77.75) MAE  59.3 sMAPE 66.2  [0s]
+[S2 trend start] -> mean + linear(cov)
+
+[S3 target scale] raw                          per-seed  81.79 +-  9.80 | 3-seed avg  76.75 (winter  75.82, recent  77.75) MAE  59.3 sMAPE 66.2  [0s]
+[S3 target scale] log                          per-seed 163.23 +- 72.63 | 3-seed avg 128.50 (winter 128.30, recent 128.71) MAE  79.6 sMAPE 63.3  [0s]
+[S3 target scale] raw+log average              per-seed 107.20 +- 37.70 | 3-seed avg  93.27 (winter  91.79, recent  94.84) MAE  66.1 sMAPE 64.4  [0s]
+[S3 target scale] -> raw
+
+[S4 epochs] 2 epochs                     per-seed  77.14 +-  0.95 | 3-seed avg  74.02 (winter  74.45, recent  73.57) MAE  55.1 sMAPE 63.6  [0s]
+[S4 epochs] 4 epochs                     per-seed  81.79 +-  9.80 | 3-seed avg  76.75 (winter  75.82, recent  77.75) MAE  59.3 sMAPE 66.2  [0s]
+[S4 epochs] 6 epochs                     per-seed  89.28 +-  5.67 | 3-seed avg  86.04 (winter  78.25, recent  93.71) MAE  67.8 sMAPE 71.4  [0s]
+[S4 epochs] -> 2 epochs
+
+[S5 epochs (short end)] 1 epochs                     per-seed  77.78 +-  0.27 | 3-seed avg  75.39 (winter  79.24, recent  71.01) MAE  54.7 sMAPE 70.0  [21s]
+[S5 epochs (short end)] 2 epochs                     per-seed  77.14 +-  0.95 | 3-seed avg  74.02 (winter  74.45, recent  73.57) MAE  55.1 sMAPE 63.6  [0s]
+[S5 epochs (short end)] 3 epochs                     per-seed  82.70 +-  4.67 | 3-seed avg  79.49 (winter  75.24, recent  83.81) MAE  61.7 sMAPE 67.7  [77s]
+[S5 epochs (short end)] -> 2 epochs
+
+[S6 width] d=8                          per-seed  77.17 +-  1.69 | 3-seed avg  72.92 (winter  77.78, recent  67.30) MAE  51.9 sMAPE 67.6  [29s]
+[S6 width] d=16                         per-seed  77.14 +-  0.95 | 3-seed avg  74.02 (winter  74.45, recent  73.57) MAE  55.1 sMAPE 63.6  [0s]
+[S6 width] d=32                         per-seed  81.70 +-  4.61 | 3-seed avg  72.22 (winter  73.22, recent  71.13) MAE  54.2 sMAPE 62.6  [71s]
+[S6 width] -> d=16
+
+[S7 dropout] dropout 0.1                  per-seed  77.14 +-  0.95 | 3-seed avg  74.02 (winter  74.45, recent  73.57) MAE  55.1 sMAPE 63.6  [0s]
+[S7 dropout] dropout 0.3                  per-seed  88.92 +-  6.78 | 3-seed avg  73.19 (winter  77.16, recent  68.67) MAE  52.8 sMAPE 64.6  [41s]
+[S7 dropout] -> dropout 0.1
+
+FINAL CONFIG: {'feats': 'full', 'horizon_cov': True, 'trend': 'cov', 'target': 'raw', 'seq_len': 96, 'd': 16, 'k': 25, 'factor': 2, 'dr': 0.1, 'epochs': 2, 'lr': 0.003, 'bs': 256}

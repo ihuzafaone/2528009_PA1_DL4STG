@@ -1,0 +1,20 @@
+{
+ "cfg": {
+  "feats": "full",
+  "horizon_cov": true,
+  "trend": "cov",
+  "target": "raw",
+  "seq_len": 96,
+  "d": 16,
+  "k": 25,
+  "factor": 2,
+  "dr": 0.1,
+  "epochs": 2,
+  "lr": 0.003,
+  "bs": 256
+ },
+ "seeds": 5,
+ "P": 45795,
+ "E": 10,
+ "models": 5
+}

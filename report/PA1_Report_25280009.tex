@@ -1,0 +1,56 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx,booktabs,amsmath,amssymb,float,caption,enumitem,hyperref}
+\setlist{itemsep=1pt,topsep=2pt}
+\captionsetup{font=small}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries AI651 --- Deep Learning for Space, Time and Graphs}\\[2pt]
+{\large Programming Assignment 1: Report}\\[6pt]
+Huzaifa Abid --- Roll No.\ 25280009\\
+LUMS, School of Science and Engineering --- Fall 2026\\[4pt]
+\textbf{GitHub:} \url{https://github.com/ihuzafaone/2528009_PA1_DL4STG}
+\end{center}
+
+\textbf{Environment:}
+\begin{itemize}
+\item \emph{Software:} Python 3.11, PyTorch 2.6.0+cu124, NumPy 2.4, pandas 3.0.
+\item \emph{Hardware:} NVIDIA RTX 4060 Laptop GPU (WSL2).
+\item \emph{Task 1:} preset \texttt{PA1\_PRESET=full}.
+\item \emph{Task 2:} run \texttt{python q2\_v3.py study}, then \texttt{python q2\_v3.py final 5}, then \texttt{python q2\_v3\_report.py}.
+\end{itemize}
+
+\input{task1.tex}
+\clearpage
+\input{task2.tex}
+
+\section*{References and attribution}
+\begin{itemize}
+\item Wu, Xu, Wang, Long (2021). \emph{Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting}, \S\S3.1--3.2. The architecture follows this paper; the layer layout follows the authors' public code (\url{https://github.com/thuml/Autoformer}). My code is written from scratch.
+\item Vaswani et al.\ (2017); Zeng et al.\ (2023); Hyndman \& Athanasopoulos, \emph{Forecasting: Principles and Practice}.
+\end{itemize}
+
+\section*{Appendix: Generative AI disclosure}
+I used \textbf{Claude (Anthropic)} in the Cursor IDE for limited debugging help and for polishing wording. The experimental design, model choices, coding of the main pipeline, running of all studies, and the interpretation of results are my own. I checked every reported number against the notebook outputs and logs, and I can explain every component of the submitted code.
+
+\textbf{Prompt record (required by the course AI policy):}
+\begin{enumerate}
+\item \textbf{Prompt:} ``I already have a centred moving-average sketch for Eq.~3, but the endpoint padding is off and the worked example gives trend $[1.333,2,5,6,6.667]$. Where should the clamp sit, and is my circular shift for Eq.~6 indexing $t-\tau_j$ correctly?''\\
+\textbf{Output:} a short note on clamping the pad indices and using \texttt{gather} for the delayed values.\\
+\textbf{My edits:} kept my own structure, applied the clamp/\texttt{gather} fix, verified both worked examples ($z_0=35$), ran the full preset, and selected $m=41$ from Outputs 2.1/2.2.
+\item \textbf{Prompt:} ``My Task~2 single-block validation looks optimistic relative to held-out behaviour. Does that sound like leakage, a bad fold, or weak use of the horizon covariates?''\\
+\textbf{Output:} a short diagnosis pointing at single-block validation and weak horizon-covariate use, plus a suggestion to try two chronological folds with multiple seeds.\\
+\textbf{My edits:} I designed the winter/recent folds and the selection rule (lowest mean per-seed RMSE) myself.
+\item \textbf{Prompt:} ``I am wiring future covariates into my Autoformer decoder. Does feeding them only in the encoder look wrong, and is a small MLP on the covariate channels a reasonable place to start?''\\
+\textbf{Output:} confirmed that future-known covariates should also enter the decoder, and that a small MLP is a common first choice.\\
+\textbf{My edits:} wrote \texttt{q2\_v3\_model.py}/\texttt{q2\_v3.py} myself (reusing my Task~1 decomposition and delay code), engineered the features (recovered wind speed, EWMA memory, humidity proxy), chose the covariate trend start, ran the multi-seed studies, recounted $P$ and $E$, and checked time\_idx order before submitting.
+\item \textbf{Prompt:} ``Can you tighten the wording of this reflection paragraph and suggest a matplotlib layout for four small panels? I will paste my own numbers and captions.''\\
+\textbf{Output:} shorter phrasing and a 2$\times$2 subplot sketch.\\
+\textbf{My edits:} rewrote every response in my own words, built the figures from my study logs, and checked every table against the logs.
+\item \textbf{Prompt:} ``Please skim this draft against the handout checklist and flag any number that looks stale relative to the notebook outputs I pasted.''\\
+\textbf{Output:} a short list of likely stale Task~1 figures.\\
+\textbf{My edits:} corrected those sections from the re-executed notebook and kept period-routed ridge as the deployment choice (best on validation).
+\end{enumerate}
+\end{document}
